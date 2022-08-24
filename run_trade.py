@@ -108,8 +108,8 @@ if __name__ == '__main__':
 ###############################################################
 
 
-	videoPath     = './dataset_prid2011/borrar/test_2022'	
-	videoFile     = 'frameStart_00003000_video_cam_a_frame_3296_error_short5.avi'
+	videoPath     = './testing/video'	
+	videoFile     = 'video_cam_a_shortcut5.avi'
 
 
 	max_tracklet        = 20
@@ -179,8 +179,8 @@ if __name__ == '__main__':
 ###  executing reidentificaton 
 ###############################################################
 
-	queryMainPath = './dataset_prid2011/borrar/test_2022/query'
-	queryPattern  = '*.png'
+	queryMainPath = './testing/query'
+	queryPattern  = 'query.png'
 
 	gallery_OCC   = os.path.join(savedPath, 'gallery_inliers_top_1')
 	qAbsPaths	  = [os.path.join(queryMainPath,f) for f in os.listdir(queryMainPath) if os.path.isfile(os.path.join(queryMainPath,f))]
