@@ -51,7 +51,27 @@ tf.flags.DEFINE_integer('top'          , '20'                   , 'Top for reid'
 # IMAGE_HEIGHT = 160
 
 
+def find_files(path_main, pattern, type='separate'):
+    list_return = list()
+    for dirpath, dirs, files in os.walk(path_main):
+        for fname in fnmatch.filter(files, pattern):
+            list_return.append((dirpath,fname))
 
+    if type == 'separate':
+        list_return = np.asarray(list_return)
+        df          = pd.DataFrame(list_return, columns = ['path','file'])
+        df          = df.sort_values(by=['path'], ascending=True)
+        return df.to_numpy()
+
+    if type == 'absolute':
+        new_list = list()
+        for i,j in list_return:
+            new_list.append(os.path.join(i,j))
+        new_list = sorted(new_list )
+        return np.asarray(new_list)
+    else:
+        print('error, you need choise type: [separate,absolute]')
+        return None
 
 
 def sortSecond(val):
@@ -107,8 +127,11 @@ class Reid_SiamlDL(object):
 
     def predict(self, query_path, gallery_path, return_time=False, return_best=None):
 
-        list_files   = sorted(os.listdir(gallery_path))
-        absPathFiles = [os.path.join(gallery_path,i) for i in list_files]
+        # list_files   = sorted(os.listdir(gallery_path))
+        list_files   = sorted(list(find_files(gallery_path, '*.png', type='absolute')))
+
+        # absPathFiles = [os.path.join(gallery_path,i) for i in list_files]
+        absPathFiles = [os.path.join(i) for i in list_files]
         assert os.path.exists(gallery_path), 'err, {} doesnt exist'.format(gallery_path)
         assert len(absPathFiles)>0, 'err, absPathFiles is empty'
 

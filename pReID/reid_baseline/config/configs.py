@@ -31,7 +31,7 @@ class Config(DefaultConfig):
         self.PRETRAIN_PATH   = '/home/luigy/luigy/develop/person-reid-tiny-baseline/weights/resnet50/resnet50_person_reid_128x64.pth'
 
         self.LOSS_TYPE       = 'triplet+softmax+center'
-        self.TEST_WEIGHT     = '/home/luigy/luigy/develop/re3/tracking/pReID/reid_baseline/weights/resnet50_200.pth'
+        self.TEST_WEIGHT     = './pReID/reid_baseline/weights/resnet50_200.pth'
         self.FLIP_FEATS      = 'off'
         self.HARD_FACTOR     = 0.2
         self.RERANKING       = True
