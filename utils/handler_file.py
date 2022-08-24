@@ -160,3 +160,17 @@ def find_dirs(path_main, pattern):
     df = pd.DataFrame(list_return, columns = ['path','dir'])
     df = df.sort_values(by=['path'], ascending=True)
     return df.to_numpy()
+
+
+def copy_files_from_array(array_src, pathDst, extension='*.png'):
+    try:
+        for i, absPath in enumerate(array_src):
+            pathFile, nameFile = os.path.split(absPath)
+            srcPath            = os.path.join(pathFile, nameFile)
+            nameFile           = "{}_{}".format(i, nameFile)
+            dstPath            = os.path.join(pathDst, nameFile)
+            shutil.copyfile(srcPath, dstPath)
+        return True
+
+    except:
+        return print("Error, Destination is a directory. (def copy_files_from_array)")
