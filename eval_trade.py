@@ -255,7 +255,7 @@ if __name__ == '__main__':
 
 
 	
-	pathDatasetTrade         = './dataset_prid2011/borrar/test_eval'
+	pathDatasetTrade         = './dataset_prid2011/Application_Under_Test'
 
 	# list_max_tracklet     = [5,10,20,40,80] # ex: [5,10,20,40,80]
 	list_max_tracklet        = [20] # ex: [5,10,20,40,80]
