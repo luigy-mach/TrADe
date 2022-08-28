@@ -170,7 +170,8 @@ if __name__ == '__main__':
 	# tau       = 10 # number frames (ex: 10, 100, 1000)
 	
 	
-	path_main                = './dataset_prid2011/test_eval_borrar'
+	# path_main                = './dataset_prid2011/Application_Under_Test'
+	path_main                = './borrar/test_gui'
 	pattern_videDatasetTrade = 'frameStart_*_video_cam_*.avi'
 
 	apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_list, typeReid='BoT') # typeReid (Bot or SiamIDL)
