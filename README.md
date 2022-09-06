@@ -65,7 +65,7 @@ foo@bar:~$ nvidia-docker run nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04 nvidi
 foo@bar:~$ docker pull luigymach/trade_dev:1.3.0 
 ```
 
-* to execute == file.py ==
+* to execute **file.py**
 ```console
 foo@bar:~$ nvidia-docker run -it -v "<Path-TrADe-repository>:/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix"   -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
 docker@0e6311e0af3d:~$ ls
@@ -79,7 +79,7 @@ docker@0e6311e0af3d:~/TrADe$ python <file>.py
 ```
 
 
-* to execute ==./notebooks/<notebook.ipynb>==
+* to execute **./notebooks/<notebook.ipynb>**
 ```console
 
 foo@bar:~$ nvidia-docker run -it --rm -v "<Path-TrADe-repository>:/home/docker/TrADe" -p 8888:8888 -u docker luigymach/trade_dev:1.3.0 /bin/bash -c "jupyter notebook --ip=0.0.0.0 --port=8888"
