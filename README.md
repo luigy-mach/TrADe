@@ -68,6 +68,8 @@ foo@bar:~$ docker pull luigymach/trade_dev:1.3.0
 * to execute **file.py**
 ```console
 foo@bar:~$ nvidia-docker run -it -v "<Path-TrADe-repository>:/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix"   -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
+```
+```console
 docker@0e6311e0af3d:~$ ls
 TrADe  data
 docker@0e6311e0af3d:~$ cd TrADe/
@@ -75,15 +77,16 @@ docker@0e6311e0af3d:~$ ls
 README.md  dataset_prid2011  draw_over_video.py  eval_trade.py  notebooks     pReID           run_trade.py    testing   
 utils      doc               eval_GUI.py         install        occ           pyqt5_window    save_path_temp  tracklet
 docker@0e6311e0af3d:~/TrADe$ python <file>.py
-
 ```
 
 
 * to execute **./notebooks/<notebook.ipynb>**
+
 ```console
-
 foo@bar:~$ nvidia-docker run -it --rm -v "<Path-TrADe-repository>:/home/docker/TrADe" -p 8888:8888 -u docker luigymach/trade_dev:1.3.0 /bin/bash -c "jupyter notebook --ip=0.0.0.0 --port=8888"
+```
 
+```console
 [I 02:38:10.191 NotebookApp] Writing notebook server cookie secret to /home/docker/.local/share/jupyter/runtime/notebook_cookie_secret
 [I 02:38:10.448 NotebookApp] Serving notebooks from local directory: /home/docker
 [I 02:38:10.448 NotebookApp] Jupyter Notebook 6.4.12 is running at:
