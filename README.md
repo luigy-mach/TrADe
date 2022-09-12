@@ -5,7 +5,7 @@
 TrADe is a new live RE-ID approach to generate lower high-quality galllery. TrADe first uses a Tracking algorithm to generated a tracklets. Following, an Anomaly detection model is used to select a best representative of each tracklet. 
 
 
-This repository implements a live RE-ID approach and testing procedure from [this paper](www.google.com).
+This repository implements a live RE-ID approach and testing procedure from [this paper](https://arxiv.org/abs/2209.06452).
 
 
 ## Abstract 
@@ -61,7 +61,6 @@ foo@bar:~$ nvidia-docker run nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04 nvidi
 
 * Download docker image.
 ```console
-
 foo@bar:~$ docker pull luigymach/trade_dev:1.3.0 
 ```
 
@@ -85,7 +84,6 @@ docker@0e6311e0af3d:~/TrADe$ python <file>.py
 ```console
 foo@bar:~$ nvidia-docker run -it --rm -v "<Path-TrADe-repository>:/home/docker/TrADe" -p 8888:8888 -u docker luigymach/trade_dev:1.3.0 /bin/bash -c "jupyter notebook --ip=0.0.0.0 --port=8888"
 ```
-
 ```console
 [I 02:38:10.191 NotebookApp] Writing notebook server cookie secret to /home/docker/.local/share/jupyter/runtime/notebook_cookie_secret
 [I 02:38:10.448 NotebookApp] Serving notebooks from local directory: /home/docker
@@ -95,7 +93,6 @@ foo@bar:~$ nvidia-docker run -it --rm -v "<Path-TrADe-repository>:/home/docker/T
 [I 02:38:10.448 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 [W 02:38:10.454 NotebookApp] No web browser found: could not locate runnable browser.
 [C 02:38:10.454 NotebookApp] 
-    
     To access the notebook, open this file in a browser:
         file:///home/docker/.local/share/jupyter/runtime/nbserver-1-open.html
     Or copy and paste one of these URLs:
