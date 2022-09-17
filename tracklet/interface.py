@@ -612,7 +612,7 @@ def check_bbox(bboxes, video_width, video_height):
     return x0, y0, x1, y1
 
 
-def gallery_yolo(  input_video, dir_gallery,  dir_log, dir_parameters, save_separate=True, show_video=show_window, objDect='yolov3', every_n_frame=1):
+def gallery_yolo(  input_video, dir_gallery,  dir_log, dir_parameters, save_separate=True, show_video=True, objDect='yolov3', every_n_frame=1):
 
     dict_average_time          = dict()
     name_dict_numframe_time    = "numFrames_time.json"
@@ -703,13 +703,14 @@ def gallery_yolo(  input_video, dir_gallery,  dir_log, dir_parameters, save_sepa
         json.dump(dict_average_time, outfile, indent = 4) 
 
     values_time = [float(i) for i in list(dict_average_time.values()) ]
-    avg_time    = np.mean(np.asarray(values_time))
+    values_time = np.asarray(values_time)
+    avg_time    = np.mean(values_time)
     print("average time frame by frame: {:.5f}".format(avg_time))
 
-    return 
+    return np.sum(values_time)
 
 
-def generate_gallery_yolo(input_video, path_results, show_window=True, pack=False, objDect='yolov3', every_n_frame=1):
+def generate_gallery_yolo(input_video, path_results, show_window=True, max_tracklet=None, packName=False, objDect='yolov3', every_n_frame=1, return_time=False ):
 
     assert os.path.exists(input_video)
     assert os.path.exists(path_results)
@@ -717,19 +718,12 @@ def generate_gallery_yolo(input_video, path_results, show_window=True, pack=Fals
     path_video = os.path.basename(input_video)
     name_video = os.path.splitext(path_video)[0]
 
-    if pack:
-        # version_pack = 0 # debug
-        version_pack = 0 # final
-        i            = 0
-        dir_vesion   = '{}_v{}.{}'
-        path_pack    = os.path.join(path_results, dir_vesion.format(name_video, version_pack, i))
-        while(os.path.exists(path_pack)):
-            path_pack = os.path.join(path_results, dir_vesion.format(name_video, version_pack, i))
-            i+=1
-    else:
+    if packName is None: 
         path_pack = path_results        
-
+    else:
+        path_pack = os.path.join(path_results, packName)
     create_dir(path_pack)
+
 
     ###################################################
 
@@ -743,17 +737,20 @@ def generate_gallery_yolo(input_video, path_results, show_window=True, pack=Fals
 
     # breakpoint() 
 
-    gallery_yolo(  input_video,
-                    dir_gallery, 
-                    dir_log,
-                    dir_parameters,
-                    save_separate = True,
-                    show_video    = show_window,
-                    every_n_frame = every_n_frame,
-                    objDect       = objDect)
+    time = gallery_yolo(    input_video,
+                            dir_gallery, 
+                            dir_log,
+                            dir_parameters,
+                            save_separate = True,
+                            show_video    = show_window,
+                            every_n_frame = every_n_frame,
+                            objDect       = objDect)
 
 
-
+   if return_time:
+        return time
+    else:
+        return
 
 
 
