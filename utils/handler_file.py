@@ -238,18 +238,18 @@ def find_files(path_main, pattern, type='separate'):
         return None
 
 
-def find_dirs(path_main, pattern):
+# def find_dirs(path_main, pattern):
 
-    list_return = list()
-    for dirpath, dirs, files in os.walk(path_main):
-        for dname in fnmatch.filter(dirs, pattern):
-            list_return.append((dirpath,dname))
+#     list_return = list()
+#     for dirpath, dirs, files in os.walk(path_main):
+#         for dname in fnmatch.filter(dirs, pattern):
+#             list_return.append((dirpath,dname))
 
-    list_return = np.asarray(list_return)
-    # return list_return
-    df = pd.DataFrame(list_return, columns = ['path','dir'])
-    df = df.sort_values(by=['path'], ascending=True)
-    return df.to_numpy()
+#     list_return = np.asarray(list_return)
+#     # return list_return
+#     df = pd.DataFrame(list_return, columns = ['path','dir'])
+#     df = df.sort_values(by=['path'], ascending=True)
+#     return df.to_numpy()
 
 
 def copy_files_from_array(array_src, pathDst, extension='*.png'):
