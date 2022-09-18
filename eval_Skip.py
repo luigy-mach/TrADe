@@ -17,7 +17,7 @@ from utils.handler_file import *
 
 def create_tau_segments_of_video(pathDatasetSkip, pattern_videDatasetSkip, tau_list):
 
-	from dataset_prid2011.videoPRID import split_tauSequence
+	from utils.dataset_prid2011.videoPRID import split_tauSequence
 
 	files                    = find_files(pathDatasetSkip, pattern_videDatasetSkip, type='separate')
 	for tau in tau_list:
@@ -34,9 +34,9 @@ def create_tau_segments_of_video(pathDatasetSkip, pattern_videDatasetSkip, tau_l
 
 def generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID'):
 	print("********************************************************************")
-	print("executing Generate Tracklets - INIT")
+	print("executing Generate gallery with YOLO - INIT")
 	import time
-	from tracklet.interface import generate_tracklets
+	from tracklet.interface import generate_gallery_yolo
 	
 	files                 = find_files(pathDatasetTrade, pattern_Tau, type='separate')
 
@@ -50,7 +50,7 @@ def generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_track
 
 			total_time    = generate_gallery_yolo(  absPathVideo, 
 													saveResults, 
-													max_tracklet = max_track,
+													max_tracklet  = max_track,
 													return_time   = True,
 													packName      = packName,
 													show_window   = False, 
@@ -60,40 +60,13 @@ def generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_track
 
 			column_names = ['Video', 'Time(sec)']
 			df_tmp       = pd.DataFrame([[videoFile,total_time]],columns = column_names)
-			csv_path     = os.path.join(videpPath, packName,'time-executing_tracklet_{}.csv'.format(videoName))
+			csv_path     = os.path.join(videpPath, packName,'time-executing_yolo_{}.csv'.format(videoName))
 			df_tmp.to_csv(csv_path, index=False)
 
 
 	print("executing Generate Tracklets - END")
 	print("********************************************************************")
 
-
-def select_best_candidate(pathDatasetTrade, pattern_cropping ):
-	print("********************************************************************")
-	print("executing One Class Classification - INIT")
-	from occ.interface_v2 import OneClassClassifier, create_gallery_inliers
-	
-	occ                = OneClassClassifier()
-
-
-	for folderPath, nameFolder in find_dirs_yield(pathDatasetTrade, pattern_cropping): 
-
-		galleryPath     = os.path.join(folderPath, nameFolder)
-		savePath        = os.path.join(folderPath)
-
-		time_occ         = create_gallery_inliers(occ, galleryPath, savePath, top_k_inliers=1, return_time=True)
-		
-		print("file: {} --- {}s seconds ---".format(galleryPath, time_occ))
-
-		column_names 	 = ['Directory', 'Time(sec)']
-		name_csv         = os.path.basename(folderPath)
-		df_tmp       	 = pd.DataFrame([[name_csv, time_occ]], columns = column_names)
-		csv_path     	 = os.path.join(savePath, 'time-executing_occ_{}.csv'.format(name_csv))
-		df_tmp.to_csv(csv_path, index=False)
-	
-	
-	print("executing One Class Classification - END")
-	print("********************************************************************")
 	
 def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT'):
 
@@ -126,7 +99,8 @@ def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT
 			for qPath, qFile in qFiles:
 				qName, qExt         = ossplitext(qFile)
 				qAbsPath            = os.path.join(qPath, qFile)
-				gallerysPath        = find_dirs(seqVideoPath, 'gallery_inliers_top_1', type='separate')
+				# gallerysPath        = find_dirs(seqVideoPath, 'gallery_inliers_top_1', type='separate')
+				gallerysPath        = find_dirs(seqVideoPath, 'gallery_yolo', type='separate')
 				
 				for g_AbsPath, g_name in gallerysPath:
 					save_path           = create_dir(os.path.join(g_AbsPath, 'outcome_{}_all'.format(qName)))
@@ -164,29 +138,27 @@ if __name__ == '__main__':
 
 
 	
+	# pathDatasetTrade         = './dataset_prid2011/1_Skip'
 	pathDatasetTrade         = './dataset_prid2011/Application_Under_Test/skip'
 
-	# list_max_tracklet     = [5,10,20,40,80] # ex: [5,10,20,40,80]
-	list_max_tracklet        = [20] # ex: [5,10,20,40,80]
+	# list_max_tracklet     = [20] # ex: [1,5,10,20,40,80]
+	list_max_tracklet        = [1,5,10,20,40,80] 
 	
 	##  length video sequence, ex: 10, 100, 1000
-	# tau_list                 = [1000, 1500, 3000]
-	tau_list                 = [1000]
+	tau_list                 = [1000, 1500, 3000]
+	# tau_list                 = [1000]
 
 	pattern_videDatasetTrade = 'frameStart_*_video_cam_*.avi'
 	pattern_Tau              = 'tau_frameStart_*.avi'
-	pattern_cropping         = 'cropping'
+	pattern_cropping         = 'gallery_yolo'
 	
 	
-	### generate Tau segments from dataset
-	create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
+	# ### generate Tau segments from dataset
+	# create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
 
 	### generate tracklets
 	generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
-	### DOC executing
-	select_best_candidate(pathDatasetTrade, pattern_cropping)
-	
 	###  executing reidentificaton 
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT') # BoT or SiamIDL
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='SiamIDL') # BoT or SiamIDL
