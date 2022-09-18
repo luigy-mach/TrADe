@@ -631,7 +631,7 @@ def gallery_yolo(  input_video, dir_gallery,  dir_log, dir_parameters, save_sepa
     
     if objDect == 'yolov3':
         myobjdetec          = obj_detection_normal()
-    elif objDect == 'yolov3_FFPRID':
+    elif objDect == 'yolov3-FFPRID':
         myobjdetec          = obj_detection_FFPRID()
 
     cap                 = setup_window(input_video, name_video, show_video)
@@ -745,9 +745,7 @@ def generate_gallery_yolo(input_video, path_results, show_window=True, max_track
                             show_video    = show_window,
                             every_n_frame = every_n_frame,
                             objDect       = objDect)
-
-
-   if return_time:
+    if return_time:
         return time
     else:
         return
