@@ -131,14 +131,20 @@ def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT
 					save_path           = create_dir(os.path.join(g_AbsPath, 'outcome_{}_all'.format(qName)))
 					gallery_path        = os.path.join(g_AbsPath, g_name)
 					
-					imgs_path, dist_mat = model.predict(qAbsPath, gallery_path)
-					col                 = ['imgAbsPath_origin', 'imgAbsPath_current',  'cosine_similarity']
-					
+					# imgs_path, dist_mat = model.predict(qAbsPath, gallery_path)
+					imgs_path, dist_mat, time = model.predict(qAbsPath, gallery_path, return_time=True)
+
+
+					col                 = ['imgAbsPath_origin', 'imgAbsPath_current',  'cosine_similarity', 'time']
+					# col                 = ['imgAbsPath_origin', 'imgAbsPath_current',  'cosine_similarity']
+
 					if len(imgs_path)>0:
 						c1   = imgs_path.reshape((len(imgs_path),1))
-						c2   = model.copy_results(imgs_path, save_path, top_k = len(imgs_path))
-						c3   = dist_mat.reshape((len(dist_mat),1))
-						data = np.hstack((c1,c2,c3))
+						c2   = model.copy_results(imgs_path, save_path, top_k=len(imgs_path), copy_files=True)
+						c3   = dist_mat.reshape(len(dist_mat),1)
+						c4   = time.reshape(len(dist_mat),1)
+						# data = np.hstack((c1,c2,c3))
+						data = np.hstack((c1,c2,c3,c4))
 						df   = pd.DataFrame(data, columns = col)
 						# model.save_patch_results(qAbsPath, imgs_path, dist_mat, save_path,  top_k=100, threshold=12.0)
 					else:
@@ -162,8 +168,8 @@ if __name__ == '__main__':
 ###############################################################
 
 
-	
-	pathDatasetTrade         = './dataset_prid2011/Application_Under_Test'
+	# pathDatasetTrade         = './dataset_prid2011/Application_Under_Test'
+	pathDatasetTrade         = './dataset_prid2011/2_TrADe'
 
 	# list_max_tracklet     = [5,10,20,40,80] # ex: [5,10,20,40,80]
 	list_max_tracklet        = [20] # ex: [5,10,20,40,80]
@@ -176,14 +182,14 @@ if __name__ == '__main__':
 	pattern_cropping         = 'cropping'
 	
 	
-	### generate Tau segments from dataset
-	# create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
+	# generate Tau segments from dataset
+	create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
 
-	# ### generate tracklets
-	# generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
+	### generate tracklets
+	generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
-	# ### DOC executing
-	# select_best_candidate(pathDatasetTrade, pattern_cropping)
+	### DOC executing
+	select_best_candidate(pathDatasetTrade, pattern_cropping)
 	
 	###  executing reidentificaton 
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT') # BoT or SiamIDL
