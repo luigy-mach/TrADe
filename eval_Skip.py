@@ -71,15 +71,15 @@ def generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_track
 def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT'):
 
 	print("********************************************************************")
-	print("executing Reidentification Bot - INIT")
+	print("executing Reidentification - INIT")
 	
 	model = None
 	if reid=='BoT':
-		from pReID.reid_siamDL.interface import Reid_SiamlDL
-		model         = Reid_SiamlDL()
-	elif reid=='SiamIDL':
 		from pReID.reid_baseline.interface import Reid_baseline
 		model         = Reid_baseline()
+	elif reid=='SiamIDL':
+		from pReID.reid_siamDL.interface import Reid_SiamlDL
+		model         = Reid_SiamlDL()
 
 
 	files     = find_files(pathDatasetTrade, pattern_videDatasetTrade, type='separate')
@@ -138,8 +138,8 @@ if __name__ == '__main__':
 
 
 	
-	# pathDatasetTrade         = './dataset_prid2011/1_Skip'
-	pathDatasetTrade         = './dataset_prid2011/Application_Under_Test/skip'
+	pathDatasetTrade         = './dataset_prid2011/1_Skip'
+	# pathDatasetTrade         = './dataset_prid2011/Application_Under_Test/skip'
 
 	# list_max_tracklet     = [20] # ex: [1,5,10,20,40,80]
 	list_max_tracklet        = [1,5,10,20,40,80] 
@@ -157,7 +157,7 @@ if __name__ == '__main__':
 	# create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
 
 	### generate tracklets
-	generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
+	# generate_gallery_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
 	###  executing reidentificaton 
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT') # BoT or SiamIDL
