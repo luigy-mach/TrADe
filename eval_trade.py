@@ -101,11 +101,11 @@ def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT
 	
 	model = None
 	if reid=='BoT':
-		from pReID.reid_siamDL.interface import Reid_SiamlDL
-		model         = Reid_SiamlDL()
-	elif reid=='SiamIDL':
 		from pReID.reid_baseline.interface import Reid_baseline
 		model         = Reid_baseline()
+	elif reid=='SiamIDL':
+		from pReID.reid_siamDL.interface import Reid_SiamlDL
+		model         = Reid_SiamlDL()
 
 
 	files     = find_files(pathDatasetTrade, pattern_videDatasetTrade, type='separate')
