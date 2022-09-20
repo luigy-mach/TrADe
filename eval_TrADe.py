@@ -177,13 +177,13 @@ if __name__ == '__main__':
 	
 	
 	### generate Tau segments from dataset
-	create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
+	# create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
 
-	### generate tracklets
-	generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
+	# ### generate tracklets
+	# generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
-	### DOC executing
-	select_best_candidate(pathDatasetTrade, pattern_cropping)
+	# ### DOC executing
+	# select_best_candidate(pathDatasetTrade, pattern_cropping)
 	
 	###  executing reidentificaton 
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT') # BoT or SiamIDL
