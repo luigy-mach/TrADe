@@ -135,7 +135,7 @@ class Reid_baseline():
         query_img = torch.unsqueeze(transform(img), 0)
         return query_img
 
-    def copy_results(self, list_imgs, path_save, top_k, img_size=None):
+    def copy_results(self, list_imgs, path_save, top_k, img_size=None, copy_files=True):
         assert top_k>0, 'it needs top_k >0 , currently is {}'.format(top_k) 
 
         try:
@@ -146,7 +146,8 @@ class Reid_baseline():
                 fnewname     = '{:03d}_'.format(i)+fname
                 fnewpath     = osjoin(path_save, fnewname)
                 new_list_imgs.append(fnewpath)
-                shutil.copy2(src_file,fnewpath)
+                if copy_files:
+                    shutil.copy2(src_file,fnewpath)
             return np.asarray(new_list_imgs).reshape((-1,1))     
         except:
             print("{} can not be created ", path_save)
