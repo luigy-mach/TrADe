@@ -55,15 +55,19 @@ def find_files_yield(path_main, pattern, type='separate'):
         return False
 
 
-def find_dirs(path_main, pattern, type='separate'):
+def find_dirs(path_main, pattern, type='separate',sort=False):
     list_return = list()
     for dirpath, dirs, files in os.walk(path_main):
         for dname in fnmatch.filter(dirs, pattern):
             list_return.append((dirpath,dname))
+
     if type == 'separate':
         list_return = np.asarray(list_return)
-        df          = pd.DataFrame(list_return, columns = ['path','dir'])
-        # df            = df.sort_values(by=['path'], ascending=True)
+        if sort:
+            np.sort(list_return, kind='quicksort')  
+
+        df = pd.DataFrame(list_return, columns = ['path','dir'])
+        # df = df.sort_values(by=['path'], ascending=True)
         return df.to_numpy()
 
     if type == 'absolute':
@@ -71,7 +75,10 @@ def find_dirs(path_main, pattern, type='separate'):
         for i,j in list_return:
             new_list.append(os.path.join(i,j))
         # new_list = sorted(new_list )
-        return np.asarray(new_list)
+        new_list = np.asarray(new_list)
+        if sort:
+            np.sort(new_list, kind='quicksort')  
+        return new_list
     else:
         print('error, you need choise type: [separate,absolute]')
         return None
