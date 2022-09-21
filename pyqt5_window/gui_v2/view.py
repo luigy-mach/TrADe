@@ -27,7 +27,7 @@ from PyQt5.QtGui     import QPixmap
 ## Create a subclass of QMainWindow to setup the calculator's GUI
 class class_view(QMainWindow):
     """PyCalc's View (GUI)."""
-    def __init__(self, query_path, imgs_path, numShowImgs, beta, eta, tau, title=None):
+    def __init__(self, query_path, imgs_path, numShowImgs, beta, eta, tau, title=None, addtext=None):
         """View initializer."""
         # super().__init__()
         # super(class_view,self).__init__()
@@ -41,6 +41,7 @@ class class_view(QMainWindow):
         self.buttonSave  = None
         self.buttonFail  = None
         self.buttonClear = None
+        self._addtext      = addtext
         self._title        = title
         self._beta         = beta
         self._eta          = eta
@@ -91,21 +92,34 @@ class class_view(QMainWindow):
     def _createTitle(self):
 
         imagesLayout = QGridLayout()
+        
+        title0 = QLabel()
+        title0.setAlignment(Qt.AlignCenter)
+        # title0.setStyleSheet("border: 1px solid black;")
+        title0.setStyleSheet("color : red;")
+        title0.setText('Beta = {:.3f}  --   Tau = {:04d}  --   Eta = {:04d}'.format(self._beta,  self._tau, self._eta,))
+        title0.setTextInteractionFlags(Qt.TextSelectableByMouse);
+        # title0.setFixedSize(50, 10)
+        imagesLayout.addWidget(title0, 0, 0)  
+
         title = QLabel()
         title.setAlignment(Qt.AlignCenter)
         # title.setStyleSheet("border: 1px solid black;")
-        title.setStyleSheet("color : red;")
-        title.setText('Beta = {:.3f}  --   Tau = {:04d}  --   Eta = {:04d}'.format(self._beta,  self._tau, self._eta,))
+        title.setStyleSheet("color : black;")
+        title.setText(self._addtext)
+        title.setTextInteractionFlags(Qt.TextSelectableByMouse);
+
         # title.setFixedSize(50, 10)
-        imagesLayout.addWidget(title, 0, 0)  
+        imagesLayout.addWidget(title, 1, 0)  
 
         title2 = QLabel()
         title2.setAlignment(Qt.AlignCenter)
         # title.setStyleSheet("border: 1px solid black;")
         title2.setStyleSheet("color : Green;")
         title2.setText(self._title)
+        title2.setTextInteractionFlags(Qt.TextSelectableByMouse);
         # title.setFixedSize(50, 10)
-        imagesLayout.addWidget(title2, 1, 0)        
+        imagesLayout.addWidget(title2, 2, 0)        
 
         self._generalLayout.addLayout(imagesLayout)
 

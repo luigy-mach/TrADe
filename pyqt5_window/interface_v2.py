@@ -16,7 +16,7 @@ qIsIn_eta  = 'qIsIn_eta'
 resultType = 'type'
 
 
-def main_GUI_eval( beta, eta, tau, query_path, imgs_path, numShowImgs, colNames, dictResult, save_path, title=None):
+def main_GUI_eval( beta, eta, tau, query_path, imgs_path, numShowImgs, colNames, dictResult, save_path, title=None, addtext=None):
   
     # Create an instance of `QApplication`
     # pyEval      = QApplication(sys.argv)
@@ -28,24 +28,25 @@ def main_GUI_eval( beta, eta, tau, query_path, imgs_path, numShowImgs, colNames,
 
     # Show the GUI
     # numShowImgs = eta if len(imgs_path)>eta else len(imgs_path)
-    view        = class_view(query_path, imgs_path, numShowImgs, beta, eta, tau, title)
-    view.show()
+    view        = class_view(query_path, imgs_path, numShowImgs, beta, eta, tau, title, addtext)
+    # view.show()
     
     # Create GUI of the model and the controller
-    class_controller(model, view, pyEval, dictResult)
-                         
+    controller = class_controller(model, view, pyEval, dictResult)
+    controller._view.show()                         
     # Execute GUI's main loop
     # sys.exit(pyEval.exec_())
     # sys.exit(pyEval.exec())
-    # pyEval.exit()
     # pyEval.quit()
     pyEval.exec()
-    del pyEval
-    del model
-    del view
+    pyEval.exit()
+    # pyEval.quit()
+    # del pyEval
+    # del model
+    # del view
 
 
-def main_evaluation(beta, eta, tau, query_id, query_path, imgs_path, gts_csv, reid_csv, save_path, name_file, title=None, show_debug=False):
+def main_evaluation(beta, eta, tau, query_id, query_path, imgs_path, gts_csv, reid_csv, save_path, name_file, title=None, addtext=None, show_debug=False):
     assert os.path.exists(query_path), "error, dont find query_path {}".format(save_path)
     assert os.path.exists(save_path) , "error, dont find save_path {}".format(save_path)
     assert len(imgs_path)>0          , "error, didnt find images in  {}".format(imgs_path)
@@ -91,7 +92,7 @@ def main_evaluation(beta, eta, tau, query_id, query_path, imgs_path, gts_csv, re
             # print("----------------------------------------------------------")
             # print('TrueCall/TrueMissedCall')
             # pass
-            main_GUI_eval(_beta, _eta, _tau, _qPath, _imgsPath, _numImgs, _col_names,  _dict_result, _savePath, title)
+            main_GUI_eval(_beta, _eta, _tau, _qPath, _imgsPath, _numImgs, _col_names,  _dict_result, _savePath, title, addtext)
             
             # print("self._eta: ",_eta)
             # print("self._numImgs:", _numImgs)
