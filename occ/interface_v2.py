@@ -92,19 +92,19 @@ class OneClassClassifier():
 	
 	def __init__(self, save_path=None, shape_img=(224,224,3)):
 
-		self.shape_img 	       = shape_img
+		self.shape_img 	     = shape_img
 
-		self.path_model_t      = "./occ/model/train_v2/model_t_smd_149epoch.h5"
-		self.path_load_train   = "./occ/model/pkl_files_v2/predictTrain.npy"
+		self.path_model_t    = "./occ/model/train_v2/model_t_smd_149epoch.h5"
+		self.path_load_train = "./occ/model/pkl_files_v2/predictTrain.npy"
 
-		self._model        = tensorflow.keras.models.load_model(self.path_model_t, compile = False)
-		self._predictTrain = load_npy( self.path_load_train )
+		self._model          = tensorflow.keras.models.load_model(self.path_model_t, compile = False)
+		self._predictTrain   = load_npy( self.path_load_train )
 		
-		self._ms2        = None
-		self._ms2        = MinMaxScaler()
-		self._predictTrain = self._ms2.fit_transform(self._predictTrain)
+		self._ms2            = None
+		self._ms2            = MinMaxScaler()
+		self._predictTrain   = self._ms2.fit_transform(self._predictTrain)
 
-		self._clf2       = LocalOutlierFactor(n_neighbors=5, novelty=True)
+		self._clf2           = LocalOutlierFactor(n_neighbors=5, novelty=True)
 		self._clf2.fit(self._predictTrain)
 
 
@@ -149,7 +149,7 @@ class OneClassClassifier():
 			path_in  = create_dir(os.path.join(save_path,'imgs_sorted' ))
 
 			for i, item in enumerate(images):
-				new_path = add_sth_path(item, i, dst_path=path_in ,prefix='inliers')
+				new_path = add_sth_path(item, i, dst_path=path_in, prefix='inliers')
 				copy_file(item, new_path)
 
 		return images, path_images, sorted_scores 		
