@@ -84,7 +84,6 @@ def find_dirs(path_main, pattern, type='separate',sort=False):
         return None
 
 
-
 def find_dirs_yield(path_main, pattern, type='separate'):
     if type == 'separate':
         list_return = list()
@@ -218,31 +217,6 @@ def check_exists(*folders):
         return False
 
 
-
-
-
-def find_files(path_main, pattern, type='separate'):
-
-    list_return = list()
-    for dirpath, dirs, files in os.walk(path_main):
-        for fname in fnmatch.filter(files, pattern):
-            list_return.append((dirpath,fname))
-
-    if type == 'separate':
-        list_return = np.asarray(list_return)
-        df          = pd.DataFrame(list_return, columns = ['path','file'])
-        df          = df.sort_values(by=['path'], ascending=True)
-        return df.to_numpy()
-
-    if type == 'absolute':
-        new_list = list()
-        for i,j in list_return:
-            new_list.append(os.path.join(i,j))
-        new_list = sorted(new_list )
-        return np.asarray(new_list)
-    else:
-        print('error, you need choise type: [separate,absolute]')
-        return None
 
 
 # def find_dirs(path_main, pattern):
