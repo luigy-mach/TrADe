@@ -151,8 +151,8 @@ if __name__ == '__main__':
 	list_max_tracklet        = [1,5,10,20,40,80] 
 	
 	##  length video sequence, ex: 10, 100, 1000
-	tau_list                 = [1000, 1500, 3000]
-	# tau_list                 = [1000]
+	# tau_list                 = [1000, 1500, 3000]
+	tau_list                 = [1000]
 
 	pattern_videDatasetTrade = 'frameStart_*_video_cam_*.avi'
 	pattern_Tau              = 'tau_frameStart_*.avi'
