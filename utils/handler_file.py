@@ -55,7 +55,7 @@ def find_files_yield(path_main, pattern, type='separate'):
         return False
 
 
-def find_dirs(path_main, pattern, type='separate',sort=False):
+def find_dirs(path_main, pattern, type='separate', sort=False):
     list_return = list()
     for dirpath, dirs, files in os.walk(path_main):
         for dname in fnmatch.filter(dirs, pattern):
