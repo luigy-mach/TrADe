@@ -28,8 +28,9 @@ def apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_lis
 		# qFiles     = find_files(vPath, 'thisCam_person_*.png')
 
 		tauVideos  = find_files(vPath, 'tau_frameStart_*.avi')
+
 		for tVideoPath, _ in tqdm(tauVideos):
-			dirs_outcomes = find_dirs(tVideoPath, 'max_tracklet_*_tau_frameStart_*')
+			dirs_outcomes = find_dirs(tVideoPath, 'max_tracklet_*_tau_frameStart_*', sort=True)
 			for outcomePath, outcomesFile in dirs_outcomes:
 				print("***********************************************")
 				print(outcomePath, outcomesFile)
@@ -56,7 +57,8 @@ def apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_lis
 						for _eta in eta_list:
 							for _beta in beta_list:
 								title = '{}  - seqVideo: {}'.format(qFileName, numSeqVideo)
-								main_evaluation(_beta, _eta, numTauVideo, id_query, qAbsPath, imgsListPath, file_gts, file_reid, save_path=outcomeImgsDir, name_file=nameFileResults, title=title)
+								addtext = "PATH = {}".format(outcomeImgsDir) 
+								main_evaluation(_beta, _eta, numTauVideo, id_query, qAbsPath, imgsListPath, file_gts, file_reid, save_path=outcomeImgsDir, name_file=nameFileResults, title=title, addtext=addtext)
 
 
 if __name__ == '__main__':
@@ -79,9 +81,8 @@ if __name__ == '__main__':
 	
 	# tau       = 10 # number frames (ex: 10, 100, 1000)
 	
-	
 	# path_main                = './dataset_prid2011/Application_Under_Test'
-	path_main                = './dataset_prid2011/1_TrADe/A-B/A-B_000001'
+	path_main                = './dataset_prid2011/2_TrADe/B-A/B-A_000011'
 	pattern_videDatasetTrade = 'frameStart_*_video_cam_*.avi'
 
 	print("****************** Reid - BOT     ******************")
