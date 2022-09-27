@@ -175,7 +175,8 @@ if __name__ == '__main__':
 	list_max_tracklet        = [20] # ex: [5,10,20,40,80]
 	
 	##  length video sequence, ex: 10, 100, 1000
-	tau_list                 = [1000, 1500, 3000]
+	# tau_list                 = [1000, 1500, 3000]
+	tau_list                 = [1000]
 
 	pattern_videDatasetTrade = 'frameStart_*_video_cam_*.avi'
 	pattern_Tau              = 'tau_frameStart_*.avi'
@@ -183,10 +184,10 @@ if __name__ == '__main__':
 	
 	
 	# generate Tau segments from dataset
-	create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
+	# create_tau_segments_of_video (pathDatasetTrade, pattern_videDatasetTrade, tau_list)
 
 	### generate tracklets
-	generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
+	# generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
 	### DOC executing
 	select_best_candidate(pathDatasetTrade, pattern_cropping)
