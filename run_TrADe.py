@@ -164,7 +164,9 @@ if __name__ == '__main__':
 		c3            = bDist_mat.reshape(-1,1)
 		c4            = time.reshape(-1,1)
 
+		# col           = ['imgAbsPath_origin', 'imgAbsPath_current',  'cosine_similarity', 'time']
 		col           = ['queryPath', 'imgsPath', 'cosine_similarity', 'time']
+
 		data          = np.hstack((c1,c2,c3,c4))
 		
 		df            = pd.DataFrame(data, columns = col)
