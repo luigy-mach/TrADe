@@ -136,7 +136,7 @@ class OneClassClassifier():
 
 
 	def generate_inliers_outliers(self, path_gallery, save_path=None):
-		images, path_images  = openImages_FromDirectory(path_gallery, shape = self.shape_img, normalize = True)
+		images, path_images  = openImages_FromDirectory(path_gallery, shape=self.shape_img, normalize=True)
 		path_images          = np.asarray(path_images)
 
 		idx_sorted, sorted_scores = self.predict_occ(images)
