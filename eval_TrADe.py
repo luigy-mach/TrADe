@@ -94,7 +94,7 @@ def select_best_candidate(pathDatasetTrade, pattern_cropping ):
 	print("executing One Class Classification - END")
 	print("********************************************************************")
 	
-def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT'):
+def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT', thisCam=False, otherCam=True):
 
 	print("********************************************************************")
 	print("executing Reidentification Bot - INIT")
@@ -113,11 +113,19 @@ def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT
 
 	for folderBasePath, videoName in tqdm(files):
 		print("////////////////////////////////////////// INIT")
-		qPatt         = 'thisCam_person_*.png'
-		qFiles1       = find_files(folderBasePath, qPatt)
-		qPatt         = 'otherCam_person_*.png'
-		qFiles2       = find_files(folderBasePath, qPatt)
-		qFiles        = np.vstack((qFiles1, qFiles2))
+		if thisCam:
+			qPatt         = 'thisCam_person_*.png'
+			qFiles1       = find_files(folderBasePath, qPatt)
+		if otherCam:
+			qPatt         = 'otherCam_person_*.png'
+			qFiles2       = find_files(folderBasePath, qPatt)
+		if thisCam and otherCam:
+			qFiles        = np.vstack((qFiles1, qFiles2))
+		else:
+			if thisCam:
+				qFiles    = qFiles1
+			else: #otherCam 
+				qFiles    = qFiles2
 
 		seqvideoFiles = find_files(folderBasePath, pattern_Tau, type='separate')
 
@@ -128,7 +136,7 @@ def apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT
 				gallerysPath        = find_dirs(seqVideoPath, 'gallery_inliers_top_1', type='separate')
 				
 				for g_AbsPath, g_name in gallerysPath:
-					save_path           = create_dir(os.path.join(g_AbsPath, 'outcome_{}_all'.format(qName)))
+					save_path           = create_dir(os.path.join(g_AbsPath, '{}_outcome_{}_all'.format(reid, qName)))
 					gallery_path        = os.path.join(g_AbsPath, g_name)
 					
 					# imgs_path, dist_mat = model.predict(qAbsPath, gallery_path)
@@ -190,7 +198,7 @@ if __name__ == '__main__':
 	# generate_tracklets_to_evaluation(pathDatasetTrade, pattern_Tau, list_max_tracklet, objDect='yolov3-FFPRID')
 
 	### DOC executing
-	select_best_candidate(pathDatasetTrade, pattern_cropping)
+	# select_best_candidate(pathDatasetTrade, pattern_cropping)
 	
 	###  executing reidentificaton 
 	apply_reidentification(pathDatasetTrade, pattern_videDatasetTrade, reid='BoT') # BoT or SiamIDL
