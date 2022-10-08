@@ -15,17 +15,22 @@ from pyqt5_window.interface_v2 import main_evaluation
 from utils.handler_file import *
 
 
-def apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_list, typeReid='BoT'):
+def apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_list, typeReid='BoT', thisCam=False, otherCam=True):
 
 	vFiles      = find_files(path_main, pattern_videDatasetTrade)
 	
 	for vPath, vFile in tqdm(vFiles):
-		qFiles1   = find_files(vPath, 'thisCam_person_*.png')
-		qFiles2   = find_files(vPath, 'otherCam_person_*.png')
-		qFiles    = np.vstack((qFiles1,  qFiles2))
-	
-		# qFiles     = find_files(vPath, 'otherCam_person_*.png')
-		# qFiles     = find_files(vPath, 'thisCam_person_*.png')
+		if thisCam:
+			qFiles1   = find_files(vPath, 'thisCam_person_*.png')
+		if otherCam:
+			qFiles2   = find_files(vPath, 'otherCam_person_*.png')
+		if thisCam and otherCam:
+			qFiles        = np.vstack((qFiles1, qFiles2))
+		else:
+			if thisCam:
+				qFiles    = qFiles1
+			else: #otherCam 
+				qFiles    = qFiles2
 
 		tauVideos  = find_files(vPath, 'tau_frameStart_*.avi')
 
@@ -39,7 +44,7 @@ def apply_GUI_evaluation(path_main, pattern_videDatasetTrade, beta_list, eta_lis
 					print(qPath, qFile)
 					qFileName, qFileExt = os.path.splitext(qFile)
 					qAbsPath            = os.path.join(qPath, qFile)
-					outcomeImgsDir      = os.path.join(outcomePath, outcomesFile, 'outcome_{}_all'.format(qFileName))
+					outcomeImgsDir      = os.path.join(outcomePath, outcomesFile, '{}_outcome_{}_all'.format(typeReid, qFileName))
 					print(outcomeImgsDir)
 					assert os.path.exists(outcomeImgsDir)
 					# print(outcomeImgsDir)
