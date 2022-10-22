@@ -107,3 +107,10 @@ http://c346fbfdf052:8888/?token=XXXXXXXXXX
 
 ```
 
+* to **copy and paste** the last **link** output in any web navigator:
+
+ ```console
+http://127.0.0.1:8888/?token=XXXXXXXXXX
+```
+
+
