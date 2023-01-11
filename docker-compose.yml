@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+	trade_dev:
+		build: under-testing
+	    image: 'luigymach/trade_dev:1.3.0'
+	    command: 
+	    deploy:
+	      resources:
+	        reservations:
+	          devices:
+	          - driver: nvidia
+	            device_ids: ['0']
+	            capabilities: [gpu]
+
+
+		volumes:
+		    - "$(MYDIR):/home/docker/TrADe"
+		    - "/tmp/.X11-unix:/tmp/.X11-unix"
+		environment:
+		    - DISPLAY=$DISPLAY
+		stdin_open: true
+		tty: true
+
+
+
+
+nvidia-docker run -it -v "$(MYDIR):/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
+
+nvidia-docker run -it -v "$(MYDIR):/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix"   -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
