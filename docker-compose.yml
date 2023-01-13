@@ -5,6 +5,7 @@ services:
 		build: under-testing
 	    image: 'luigymach/trade_dev:1.3.0'
 	    command: 
+	    user: docker
 	    deploy:
 	      resources:
 	        reservations:
@@ -22,9 +23,3 @@ services:
 		stdin_open: true
 		tty: true
 
-
-
-
-nvidia-docker run -it -v "$(MYDIR):/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
-
-nvidia-docker run -it -v "$(MYDIR):/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix"   -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
