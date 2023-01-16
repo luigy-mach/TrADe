@@ -4,7 +4,7 @@ services:
 	trade_dev:
 		container_name: trade 
 		build: 
-			context: ./docker
+			context: $(DOCKER_DIR)
 			dockerfile: Dockerfile
 	    image: 'luigymach/trade_dev:1.3.0'
 		volumes:
@@ -12,7 +12,7 @@ services:
 			- "$(UNIX_DOMAIN_SOCKET):$(UNIX_DOMAIN_SOCKET)"
 
 	    command: /bin/bash cd DES_TRADE_DIR
-	    user: $(USER_CONTAINER)
+	    user: $(USER)
 		environment:
 		    - DISPLAY=$DISPLAY
 		stdin_open: true
