@@ -38,3 +38,11 @@ services:
     container_name: trade_dev 
     entrypoint: /bin/bash -c "cd TrADe" 
 
+    
+  trade_notebook:
+    <<: *trade_base
+    container_name: trade_notebook 
+    ports:
+      - 8888:8888
+    entrypoint: /bin/bash -c "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+
