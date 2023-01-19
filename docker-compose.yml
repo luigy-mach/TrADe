@@ -1,20 +1,21 @@
 version: '3'
 
 services:
-  trade_dev:
-    container_name: trade 
-    
+  trade_base: &trade_base
     build: 
       context:$DOCKER_DIR
       dockerfile:Dockerfile
-    
+
     image: 'luigymach/trade_dev:1.3.0'
+    
+    container_name: trade_base    
     
     volumes:
       - ${SRC_TRADE_DIR}:${DES_TRADE_DIR}
       - ${UNIX_DOMAIN_SOCKET}:${UNIX_DOMAIN_SOCKET}
-    
-    entrypoint: /bin/bash 
+
+    entrypoint: 
+      - /bin/bash 
     
     user: ${USER_CTR}
     
@@ -32,5 +33,8 @@ services:
               count: 1
               capabilities: [ gpu ]
     
-
+  trade_dev:
+    <<: *trade_base
+    container_name: trade_dev 
+    entrypoint: /bin/bash -c "cd TrADe" 
 
