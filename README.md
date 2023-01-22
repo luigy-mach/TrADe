@@ -1,3 +1,4 @@
+
 # **TrADe Re-ID – Improving Person Re-Identification using Tracking and Anomaly Detection**
 ---
 
@@ -27,14 +28,22 @@ Person Re-Identification (Re-ID) is a computer vision problem, which goal is to 
 
 
 ## First Time Setup 
----
 
-Here are sample steps for setup over Ubuntu-20.04. You need install [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) and [CUDA >= 11.4](https://developer.nvidia.com/cuda-downloads).
-
-* please check this with following step.
+Here are sample steps for setup over Ubuntu-20.04.
+ You must install the follow:
++  [CUDA >= 11.4](https://developer.nvidia.com/cuda-downloads).
++ [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
++ [docker compose plugin](https://docs.docker.com/compose/install/linux/)
  
+------------------------
+ + [ ] Please check **nvidia-docker** with the next step.
+    
+    ```console
+    nvidia-docker run --rm nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04 nvidia-smi
+    ```
+    > We must see a console similar below.
 ```console
-foo@bar:~$ nvidia-docker run nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04 nvidia-smi
+foo@bar:~$ 
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 470.141.03   Driver Version: 470.141.03   CUDA Version: 11.4     |
 |-------------------------------+----------------------+----------------------+
@@ -55,62 +64,95 @@ foo@bar:~$ nvidia-docker run nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04 nvidi
 +-----------------------------------------------------------------------------+
 
 ```
+------------------------
+
+ + [ ] Please **check docker compose** is installed correctly:
+    
+    ```console
+    docker compose version
+    ```
+    > We must see a console similar below.
+```console
+foo@bar:~$ 
+Docker Compose version v2.xx.x
+```
+
+------------------------
+ + [ ] Download **docker image**.
+    ```console
+    docker pull luigymach/trade_dev:1.3.0 
+    ```
+
+    > We must see a console similar below.
+```console
+foo@bar:~$  
+pull luigymach/trade_dev:1.3.0
+1.3.0: Pulling from luigymach/trade_dev
+Digest: sha256:ccdf653c2a8f32a5390f1270d7df437a12f65fb12f9f5b2408e809a66d8a6bbc
+Status: Image is up to date for luigymach/trade_dev:1.3.0
+docker.io/luigymach/trade_dev:1.3.0
+
+```
+
+
 
 
 ## TL;DR
+####  Docker compose
+------------------------
 
-* Download docker image.
+* To **spin-up a container**
+    ```console
+    docker compose --env-file ./docker/.env.trade up --detach
+    ```
+    > We must see a console similar below.
 ```console
-foo@bar:~$ docker pull luigymach/trade_dev:1.3.0 
+foo@bar:~$  
+[+] Running 4/4
+ ⠿ Network trade_default     Created             0.0s
+ ⠿ Container trade_notebook  Started             1.3s
+ ⠿ Container trade_dev       Started             1.2s
+ ⠿ Container trade_base      Started             1.2s
+
 ```
 
-* to execute **file.py**
+------------------------
+
+* to **execute** ''run_TrADe.py'', ''eval_TrADe.py'', etc.
+    ```console
+     docker compose --env-file ./docker/.env.trade exec trade_dev bash
+    ```
+    > We must see a console similar below.
+
 ```console
-foo@bar:~$ nvidia-docker run -it -v "<Path-TrADe-repository>:/home/docker/TrADe" -v "/tmp/.X11-unix:/tmp/.X11-unix"   -v "/tmp/.X11-unix:/tmp/.X11-unix" -e DISPLAY=$DISPLAY  -u docker luigymach/trade_dev:1.3.0 
-```
-```console
-docker@0e6311e0af3d:~$ ls
+docker@yyy:~$ ls
 TrADe  data
-docker@0e6311e0af3d:~$ cd TrADe/
-docker@0e6311e0af3d:~$ ls
-README.md  dataset_prid2011  draw_over_video.py  eval_trade.py  notebooks     pReID           run_trade.py    testing   
-utils      doc               eval_GUI.py         install        occ           pyqt5_window    save_path_temp  tracklet
-docker@0e6311e0af3d:~/TrADe$ python <file>.py
+docker@yyy:~$ cd TrADe/
+docker@yyy:~/TrADe$ python <file>.py
 ```
 
+------------------------
 
-* to execute **./notebooks/<notebook.ipynb>**
+* Please enter the below link if you want to execute some **jupyter notebook**.
+  > [http://localhost:8888/](http://localhost:8888/)
+
+
+------------------------
+
+* To **down** services of **docker compose**
+
+    ```console
+    docker compose --env-file ./docker/.env.trade down
+    ```
+
+    > We must see a console similar below.
 
 ```console
-foo@bar:~$ nvidia-docker run -it --rm -v "<Path-TrADe-repository>:/home/docker/TrADe" -p 8888:8888 -u docker luigymach/trade_dev:1.3.0 /bin/bash -c "jupyter notebook --ip=0.0.0.0 --port=8888"
+foo@bar:~$
+[+] Running 4/4
+ ⠿ Container trade_dev       Removed             0.5s
+ ⠿ Container trade_notebook  Removed             0.5s
+ ⠿ Container trade_base      Removed             0.5s
+ ⠿ Network trade_default     Removed             0.1s
 ```
-```console
-[I 02:38:10.191 NotebookApp] Writing notebook server cookie secret to /home/docker/.local/share/jupyter/runtime/notebook_cookie_secret
-[I 02:38:10.448 NotebookApp] Serving notebooks from local directory: /home/docker
-[I 02:38:10.448 NotebookApp] Jupyter Notebook 6.4.12 is running at:
-[I 02:38:10.448 NotebookApp] http://c346fbfdf052:8888/?token=XXXXXXXXXX
-[I 02:38:10.448 NotebookApp]  or http://127.0.0.1:8888/?token=XXXXXXXXXX
-[I 02:38:10.448 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-[W 02:38:10.454 NotebookApp] No web browser found: could not locate runnable browser.
-[C 02:38:10.454 NotebookApp] 
-    To access the notebook, open this file in a browser:
-        file:///home/docker/.local/share/jupyter/runtime/nbserver-1-open.html
-    Or copy and paste one of these URLs:
-        http://c346fbfdf052:8888/?token=XXXXXXXXXX
-     or http://127.0.0.1:8888/?token=XXXXXXXXXX
-^C[I 02:38:18.201 NotebookApp] interrupted
-Serving notebooks from local directory: /home/docker
-0 active kernels
-Jupyter Notebook 6.4.12 is running at:
-http://c346fbfdf052:8888/?token=XXXXXXXXXX
- or http://127.0.0.1:8888/?token=XXXXXXXXXX
-
-```
-
-* to **copy and paste** the last **link** output in any web navigator:
-
- ```console
-http://127.0.0.1:8888/?token=XXXXXXXXXX
-```
-
 
