@@ -26,8 +26,12 @@ Person Re-Identification (Re-ID) is a computer vision problem, which goal is to 
 
 
 
+## Donwload weight
 
-## First Time Setup 
+ + [ ] Download **TrADe's weights**  [here](https://drive.google.com/drive/folders/1zhiEWPwwqvFwiLMNJWkD4Xd4qIqGHST7?usp=share_link ).
+
+
+## Setup
 
 Here are sample steps for setup over Ubuntu-20.04.
  You must install the follow:
