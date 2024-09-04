@@ -28,7 +28,7 @@ Person Re-Identification (Re-ID) is a computer vision problem, which goal is to 
 
 ## Donwload weight
 
- + [ ] Download **TrADe's weights**  [here](https://drive.google.com/drive/folders/1zhiEWPwwqvFwiLMNJWkD4Xd4qIqGHST7?usp=share_link ).
+ + [ ] Download **TrADe's weights**  [here](https://onedrive.live.com/?authkey=%21AGIoR61WjEeu5us&id=2C0B31848E6838B6%2169544&cid=2C0B31848E6838B6).
 
 
 ## Setup
